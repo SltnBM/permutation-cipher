@@ -57,7 +57,7 @@ if __name__ == "__main__":
     print("This program encrypts and decrypts text using block transposition.\n")
 
     choice = input("Choose mode (E = Encrypt, D = Decrypt): ").lower().strip()
-    text = input("Enter your text: ").upper().replace(" ", "")
+    text = input("Enter your text: ").replace(" ", "")  # <-- keep case sensitive
     m = int(input("Enter block size (m): "))
 
     print("\nEnter your key as space-separated numbers (e.g. '3 1 4 2')")
