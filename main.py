@@ -60,15 +60,25 @@ if __name__ == "__main__":
     text = input("Enter your text: ").replace(" ", "")  # <-- keep case sensitive
     m = int(input("Enter block size (m): "))
 
-    print("\nEnter your key as space-separated numbers (e.g. '3 1 4 2')")
-    print("Or type 'random' to generate a random key")
-    key_input = input("Key: ").strip()
+    # Loop sampai key valid
+    while True:
+        print("\nEnter your key as space-separated numbers (e.g. '3 1 4 2')")
+        print("Or type 'random' to generate a random key")
+        key_input = input("Key: ").strip()
 
-    if key_input.lower() == "random":
-        key = random_key(m)
-        print(f"\nGenerated random key: {key}")
-    else:
-        key = list(map(int, key_input.split()))
+        if key_input.lower() == "random":
+            key = random_key(m)
+            print(f"\nGenerated random key: {key}")
+            break
+        else:
+            try:
+                key = list(map(int, key_input.split()))
+                if validate_key(key, m):
+                    break
+                else:
+                    print("Invalid key! Must be a permutation of 1..m. Try again.\n")
+            except ValueError:
+                print("Invalid input! Please enter numbers only.\n")
 
     print("\n--- Result ---")
     if choice == "e":
