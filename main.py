@@ -53,53 +53,58 @@ def random_key(m: int) -> List[int]:
 
 # ----- Interactive version -----
 if __name__ == "__main__":
-    print("=== Permutation Cipher Program ===")
-    print("This program encrypts and decrypts text using block transposition.\n")
-
-    choice = input("Choose mode (E = Encrypt, D = Decrypt, B = Both): ").lower().strip()
-    text = input("Enter your text: ").replace(" ", "")  # <-- keep case sensitive
-    m = int(input("Enter block size (m): "))
-
-    # Loop sampai key valid
     while True:
-        print("\nEnter your key as space-separated numbers (e.g. '3 1 4 2')")
-        print("Or type 'random' to generate a random key")
-        key_input = input("Key: ").strip()
+        print("=== Permutation Cipher Program ===")
+        print("This program encrypts and decrypts text using block transposition.\n")
 
-        if key_input.lower() == "random":
-            key = random_key(m)
-            print(f"\nGenerated random key: {key}")
-            break
+        choice = input("Choose mode (E = Encrypt, D = Decrypt, B = Both): ").lower().strip()
+        text = input("Enter your text: ").replace(" ", "")
+        m = int(input("Enter block size (m): "))
+
+        while True:
+            print("\nEnter your key as space-separated numbers (e.g. '3 1 4 2')")
+            print("Or type 'random' to generate a random key")
+            key_input = input("Key: ").strip()
+
+            if key_input.lower() == "random":
+                key = random_key(m)
+                print(f"\nGenerated random key: {key}")
+                break
+            else:
+                try:
+                    key = list(map(int, key_input.split()))
+                    if validate_key(key, m):
+                        break
+                    else:
+                        print("Invalid key! Must be a permutation of 1..m. Try again.\n")
+                except ValueError:
+                    print("Invalid input! Please enter numbers only.\n")
+
+        print("\n--- Result ---")
+        if choice == "e":
+            ciphertext = encrypt(text, key, m)
+            print("Mode       : Encryption")
+            print("Plaintext  :", text)
+            print("Key        :", key)
+            print("Ciphertext :", ciphertext)
+        elif choice == "d":
+            plaintext = decrypt(text, key, m)
+            print("Mode       : Decryption")
+            print("Ciphertext :", text)
+            print("Key        :", key)
+            print("Plaintext  :", plaintext)
+        elif choice == "b":
+            ciphertext = encrypt(text, key, m)
+            plaintext = decrypt(ciphertext, key, m)
+            print("Mode       : Encrypt & Decrypt")
+            print("Plaintext  :", text)
+            print("Key        :", key)
+            print("Ciphertext :", ciphertext)
+            print("Decrypted  :", plaintext)
         else:
-            try:
-                key = list(map(int, key_input.split()))
-                if validate_key(key, m):
-                    break
-                else:
-                    print("Invalid key! Must be a permutation of 1..m. Try again.\n")
-            except ValueError:
-                print("Invalid input! Please enter numbers only.\n")
+            print("Invalid choice. Please enter 'E', 'D', or 'B'.")
 
-    print("\n--- Result ---")
-    if choice == "e":
-        ciphertext = encrypt(text, key, m)
-        print("Mode       : Encryption")
-        print("Plaintext  :", text)
-        print("Key        :", key)
-        print("Ciphertext :", ciphertext)
-    elif choice == "d":
-        plaintext = decrypt(text, key, m)
-        print("Mode       : Decryption")
-        print("Ciphertext :", text)
-        print("Key        :", key)
-        print("Plaintext  :", plaintext)
-    elif choice == "b":
-        ciphertext = encrypt(text, key, m)
-        plaintext = decrypt(ciphertext, key, m)
-        print("Mode       : Encrypt & Decrypt")
-        print("Plaintext  :", text)
-        print("Key        :", key)
-        print("Ciphertext :", ciphertext)
-        print("Decrypted  :", plaintext)
-    else:
-        print("Invalid choice. Please enter 'E', 'D', or 'B'.")
+        again = input("\nTry again? (Y/N): ").lower().strip()
+        if again != "y":
+            print("Goodbye!")
+            break
