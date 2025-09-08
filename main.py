@@ -56,7 +56,7 @@ if __name__ == "__main__":
     print("=== Permutation Cipher Program ===")
     print("This program encrypts and decrypts text using block transposition.\n")
 
-    choice = input("Choose mode (E = Encrypt, D = Decrypt): ").lower().strip()
+    choice = input("Choose mode (E = Encrypt, D = Decrypt, B = Both): ").lower().strip()
     text = input("Enter your text: ").replace(" ", "")  # <-- keep case sensitive
     m = int(input("Enter block size (m): "))
 
@@ -83,5 +83,13 @@ if __name__ == "__main__":
         print("Ciphertext :", text)
         print("Key        :", key)
         print("Plaintext  :", plaintext)
+    elif choice == "b":
+        ciphertext = encrypt(text, key, m)
+        plaintext = decrypt(ciphertext, key, m)
+        print("Mode       : Encrypt & Decrypt")
+        print("Plaintext  :", text)
+        print("Key        :", key)
+        print("Ciphertext :", ciphertext)
+        print("Decrypted  :", plaintext)
     else:
-        print("Invalid choice. Please enter 'E' or 'D'.")
+        print("Invalid choice. Please enter 'E', 'D', or 'B'.")
