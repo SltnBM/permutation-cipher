@@ -61,6 +61,15 @@ if __name__ == "__main__":
         text = input("Enter your text: ").replace(" ", "")
         m = int(input("Enter block size (m): "))
 
+        if len(text) % m == 0:
+                pad_char = "X"
+        else:
+            pad_char = input("Enter padding character (default = X): ").strip()
+            if not pad_char:
+                pad_char = "X"
+            else:
+                pad_char = pad_char[0]
+
         while True:
             print("\nEnter your key as space-separated numbers (e.g. '3 1 4 2')")
             print("Or type 'random' to generate a random key")
@@ -82,20 +91,20 @@ if __name__ == "__main__":
 
         print("\n--- Result ---")
         if choice == "e":
-            ciphertext = encrypt(text, key, m)
+            ciphertext = encrypt(text, key, m, pad_char)
             print("Mode       : Encryption")
             print("Plaintext  :", text)
             print("Key        :", key)
             print("Ciphertext :", ciphertext)
         elif choice == "d":
-            plaintext = decrypt(text, key, m)
+            plaintext = decrypt(text, key, m, pad_char)
             print("Mode       : Decryption")
             print("Ciphertext :", text)
             print("Key        :", key)
             print("Plaintext  :", plaintext)
         elif choice == "b":
-            ciphertext = encrypt(text, key, m)
-            plaintext = decrypt(ciphertext, key, m)
+            ciphertext = encrypt(text, key, m, pad_char)
+            plaintext = decrypt(ciphertext, key, m, pad_char)
             print("Mode       : Encrypt & Decrypt")
             print("Plaintext  :", text)
             print("Key        :", key)
